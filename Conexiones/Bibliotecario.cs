@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
@@ -132,6 +133,57 @@ namespace Conexiones
                 return -1;
             }
         }
+        // Método para obtener todos los Bibliotecarios
+        public DataTable ObtenerBibliotecarios()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    string query = "SELECT IDBibliotecario, Nombres, Apellidos, Usuario, Permisos FROM Bibliotecario";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        DataTable bibliotecarios = new DataTable();
+                        adapter.Fill(bibliotecarios);
+                        return bibliotecarios;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return null;
+            }
+        }
+
+        // Método para eliminar un Bibliotecario
+        public bool EliminarBibliotecario(int idBibliotecario)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    string query = "DELETE FROM Bibliotecario WHERE IDBibliotecario = @IDBibliotecario";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@IDBibliotecario", idBibliotecario);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return false;
+            }
+        }
 
     }
+
 }
