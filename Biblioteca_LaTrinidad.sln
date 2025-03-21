@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca_LaTrinidad", "Biblioteca_LaTrinidad\Biblioteca_LaTrinidad.csproj", "{5BDDA08C-A78F-41A0-929A-B075D665F2B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conexiones", "Conexiones\Conexiones.csproj", "{772ABBA1-C484-44FA-BDEA-BD300DEF0620}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BDDA08C-A78F-41A0-929A-B075D665F2B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BDDA08C-A78F-41A0-929A-B075D665F2B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BDDA08C-A78F-41A0-929A-B075D665F2B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BDDA08C-A78F-41A0-929A-B075D665F2B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{772ABBA1-C484-44FA-BDEA-BD300DEF0620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{772ABBA1-C484-44FA-BDEA-BD300DEF0620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{772ABBA1-C484-44FA-BDEA-BD300DEF0620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{772ABBA1-C484-44FA-BDEA-BD300DEF0620}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EF74242-4ED2-4838-92A1-4F668E309139}
+	EndGlobalSection
+EndGlobal
