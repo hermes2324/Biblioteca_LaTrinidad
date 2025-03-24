@@ -116,27 +116,35 @@ namespace Conexiones
         // Método para consultar todos los libros
         public DataTable ConsultarLibros()
         {
+            DataTable dt = new DataTable();
+
             using (SqlConnection conn = ObtenerConexion())
             {
+                if (conn == null)
+                {
+                    Console.WriteLine("La conexión es nula.");
+                    return dt;
+                }
+
                 try
                 {
-                    conn.Open();
                     string query = "SELECT * FROM Libro1";
-
-                    using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        return dt;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Manejo de errores
-                    Console.WriteLine(ex.Message);
-                    return null;
+                    Console.WriteLine("Error: " + ex.Message);
                 }
             }
+
+            return dt;
         }
+
     }
 }

@@ -8,5 +8,20 @@ namespace Biblioteca_LaTrinidad
         {
             InitializeComponent();
         }
+
+        private void Form_Prestamo_Load(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void simpleButton1_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void btnAgregar_Libro_Click(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

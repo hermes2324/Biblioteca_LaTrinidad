@@ -68,16 +68,36 @@ namespace Biblioteca_LaTrinidad
             string usuario = TxtUser.Text;
             string contraseña = TxtPass.Text;
 
+            // Validar que el usuario ingresó datos
+            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contraseña))
+            {
+                MessageBox.Show("Por favor, ingrese usuario y contraseña.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             string resultado = Conexion.IniciarSesion(usuario, contraseña);
+
             if (resultado != null)
             {
                 string[] datos = resultado.Split(',');
                 string nombre = datos[0];
-                string rol = datos[1];
+                string rol = datos[1]; // Rol obtenido de la base de datos
                 string permisos = datos.Length > 2 ? datos[2] : "";
+
+                // Obtener el rol seleccionado en el ComboBox
+                string rolSeleccionado = comboBox1.SelectedItem?.ToString();
+
+                // Validar que el rol de la base de datos coincida con el del ComboBox
+                if ((rol == "Administrador" && rolSeleccionado != "Administrador") ||
+                    (rol == "Bibliotecario" && rolSeleccionado != "Bibliotecario"))
+                {
+                    MessageBox.Show("El rol seleccionado no coincide con las credenciales ingresadas.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 MessageBox.Show($"Bienvenido {nombre}, Rol: {rol} - Permisos: {permisos}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                // Abrir el formulario correspondiente
                 if (rol == "Administrador")
                 {
                     new Form_Admin().Show();
@@ -88,6 +108,10 @@ namespace Biblioteca_LaTrinidad
                 }
 
                 this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("No existen las credenciales, o credenciales incorrectas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

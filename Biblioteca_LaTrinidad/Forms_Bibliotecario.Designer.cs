@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel3 = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -46,7 +46,11 @@
             this.TxtUser = new System.Windows.Forms.TextBox();
             this.TxtPass = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.textBox3 = new DevExpress.XtraEditors.TextEdit();
+            this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textBox3.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel3
@@ -54,11 +58,11 @@
             this.panel3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel3.AutoSize = true;
             this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Controls.Add(this.textBox3);
             this.panel3.Controls.Add(this.comboBox1);
             this.panel3.Controls.Add(this.label8);
             this.panel3.Controls.Add(this.textBox4);
             this.panel3.Controls.Add(this.label7);
-            this.panel3.Controls.Add(this.textBox3);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.textBox2);
             this.panel3.Controls.Add(this.label5);
@@ -126,17 +130,6 @@
             this.label7.Size = new System.Drawing.Size(97, 25);
             this.label7.TabIndex = 13;
             this.label7.Text = "Usuario :";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(187, 336);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(218, 30);
-            this.textBox3.TabIndex = 12;
             // 
             // label6
             // 
@@ -293,6 +286,16 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Nombre :";
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(187, 336);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.RegExpMaskManager));
+            this.textBox3.Properties.MaskSettings.Set("MaskManagerSignature", "isOptimistic=False");
+            this.textBox3.Properties.MaskSettings.Set("mask", "(\\d\\d\\d) \\d\\d\\d-\\d\\d\\d\\d");
+            this.textBox3.Size = new System.Drawing.Size(217, 22);
+            this.textBox3.TabIndex = 17;
+            // 
             // Forms_Bibliotecario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -305,6 +308,8 @@
             this.Text = "Forms_Bibliotecario";
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textBox3.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -322,7 +327,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label5;
@@ -330,5 +334,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label8;
+        private DevExpress.XtraEditors.TextEdit textBox3;
+        private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
     }
 }

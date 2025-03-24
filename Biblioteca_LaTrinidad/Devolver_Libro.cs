@@ -13,5 +13,20 @@ namespace Biblioteca_LaTrinidad
         {
 
         }
+
+        private void button3_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void btnBuscarPrestamo_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

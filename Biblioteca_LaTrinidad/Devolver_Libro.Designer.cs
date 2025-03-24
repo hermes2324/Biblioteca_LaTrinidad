@@ -31,12 +31,16 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.Button button3;
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.button1 = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Devolver_Libro));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.IdLibro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IDprestamo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.titulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.eliminar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -48,28 +52,11 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IdLibro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IDprestamo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.titulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.eliminar = new System.Windows.Forms.DataGridViewButtonColumn();
-            button3 = new System.Windows.Forms.Button();
+            this.btnBuscarPrestamo = new DevExpress.XtraEditors.SimpleButton();
+            this.btnDevolver = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.MediumBlue;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(944, 598);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(104, 42);
-            this.button1.TabIndex = 80;
-            this.button1.Text = "Devolver";
-            this.button1.UseVisualStyleBackColor = false;
             // 
             // dataGridView1
             // 
@@ -100,7 +87,8 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView1.Location = new System.Drawing.Point(24, 257);
+            this.dataGridView1.Location = new System.Drawing.Point(32, 316);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -113,65 +101,87 @@
             this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowHeadersWidth = 45;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(780, 186);
+            this.dataGridView1.Size = new System.Drawing.Size(1040, 229);
             this.dataGridView1.TabIndex = 79;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // IdLibro
+            // 
+            this.IdLibro.HeaderText = "ID Prestamo";
+            this.IdLibro.MinimumWidth = 6;
+            this.IdLibro.Name = "IdLibro";
+            // 
+            // IDprestamo
+            // 
+            this.IDprestamo.HeaderText = "Cliente";
+            this.IDprestamo.MinimumWidth = 6;
+            this.IDprestamo.Name = "IDprestamo";
+            // 
+            // titulo
+            // 
+            this.titulo.HeaderText = "Fecha Del Prestamo";
+            this.titulo.MinimumWidth = 6;
+            this.titulo.Name = "titulo";
+            // 
+            // fecha
+            // 
+            this.fecha.HeaderText = "Fecha de devolucion";
+            this.fecha.MinimumWidth = 6;
+            this.fecha.Name = "fecha";
+            // 
+            // eliminar
+            // 
+            this.eliminar.HeaderText = "Total De Libros-";
+            this.eliminar.MinimumWidth = 6;
+            this.eliminar.Name = "eliminar";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(20, 86);
+            this.label6.Location = new System.Drawing.Point(27, 106);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 18);
+            this.label6.Size = new System.Drawing.Size(81, 24);
             this.label6.TabIndex = 75;
             this.label6.Text = "Cliente:";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(107, 42);
+            this.textBox1.Location = new System.Drawing.Point(143, 52);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(121, 20);
+            this.textBox1.Size = new System.Drawing.Size(160, 22);
             this.textBox1.TabIndex = 88;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(20, 44);
+            this.label4.Location = new System.Drawing.Point(27, 54);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(81, 18);
+            this.label4.Size = new System.Drawing.Size(97, 24);
             this.label4.TabIndex = 89;
             this.label4.Text = "Prestamo";
             // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(107, 83);
+            this.comboBox1.Location = new System.Drawing.Point(143, 102);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.Size = new System.Drawing.Size(160, 24);
             this.comboBox1.TabIndex = 91;
-            // 
-            // button3
-            // 
-            button3.BackColor = System.Drawing.Color.MediumBlue;
-            button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            button3.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            button3.ForeColor = System.Drawing.Color.White;
-            button3.Location = new System.Drawing.Point(278, 42);
-            button3.Name = "button3";
-            button3.Size = new System.Drawing.Size(132, 62);
-            button3.TabIndex = 92;
-            button3.Text = " Buscar Prestamo";
-            button3.UseVisualStyleBackColor = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(331, 236);
+            this.label2.Location = new System.Drawing.Point(91, 288);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 18);
+            this.label2.Size = new System.Drawing.Size(107, 24);
             this.label2.TabIndex = 93;
             this.label2.Text = "Prestamos";
             // 
@@ -179,9 +189,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(340, 497);
+            this.label5.Location = new System.Drawing.Point(91, 634);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(174, 18);
+            this.label5.Size = new System.Drawing.Size(212, 24);
             this.label5.TabIndex = 94;
             this.label5.Text = "Detalles del Prestamo";
             // 
@@ -213,7 +224,8 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dataGridView2.Location = new System.Drawing.Point(24, 538);
+            this.dataGridView2.Location = new System.Drawing.Point(32, 662);
+            this.dataGridView2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -226,70 +238,75 @@
             this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView2.RowHeadersWidth = 45;
             this.dataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView2.Size = new System.Drawing.Size(823, 186);
+            this.dataGridView2.Size = new System.Drawing.Size(1097, 229);
             this.dataGridView2.TabIndex = 95;
             // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "IDDetallePrestamo";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             // 
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.HeaderText = "Libros";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.HeaderText = "Estado Del Libro";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             // 
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.HeaderText = "Cantidad De Libros";
+            this.dataGridViewTextBoxColumn4.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             // 
-            // IdLibro
+            // btnBuscarPrestamo
             // 
-            this.IdLibro.HeaderText = "ID Prestamo";
-            this.IdLibro.Name = "IdLibro";
+            this.btnBuscarPrestamo.Appearance.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Bold);
+            this.btnBuscarPrestamo.Appearance.Options.UseFont = true;
+            this.btnBuscarPrestamo.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
+            this.btnBuscarPrestamo.Location = new System.Drawing.Point(366, 52);
+            this.btnBuscarPrestamo.Name = "btnBuscarPrestamo";
+            this.btnBuscarPrestamo.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.btnBuscarPrestamo.Size = new System.Drawing.Size(205, 76);
+            this.btnBuscarPrestamo.TabIndex = 96;
+            this.btnBuscarPrestamo.Text = "Buscar prestamo";
+            this.btnBuscarPrestamo.Click += new System.EventHandler(this.btnBuscarPrestamo_Click);
             // 
-            // IDprestamo
+            // btnDevolver
             // 
-            this.IDprestamo.HeaderText = "Cliente";
-            this.IDprestamo.Name = "IDprestamo";
-            // 
-            // titulo
-            // 
-            this.titulo.HeaderText = "Fecha Del Prestamo";
-            this.titulo.Name = "titulo";
-            // 
-            // fecha
-            // 
-            this.fecha.HeaderText = "Fecha de devolucion";
-            this.fecha.Name = "fecha";
-            // 
-            // eliminar
-            // 
-            this.eliminar.HeaderText = "Total De Libros-";
-            this.eliminar.Name = "eliminar";
+            this.btnDevolver.Appearance.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Bold);
+            this.btnDevolver.Appearance.Options.UseFont = true;
+            this.btnDevolver.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage1")));
+            this.btnDevolver.Location = new System.Drawing.Point(1136, 662);
+            this.btnDevolver.Name = "btnDevolver";
+            this.btnDevolver.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.btnDevolver.Size = new System.Drawing.Size(139, 68);
+            this.btnDevolver.TabIndex = 97;
+            this.btnDevolver.Text = "Devolver";
             // 
             // Devolver_Libro
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lavender;
-            this.ClientSize = new System.Drawing.Size(1114, 736);
+            this.ClientSize = new System.Drawing.Size(1485, 906);
+            this.Controls.Add(this.btnDevolver);
+            this.Controls.Add(this.btnBuscarPrestamo);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label2);
-            this.Controls.Add(button3);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label6);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Devolver_Libro";
             this.Text = "v";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -300,8 +317,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox1;
@@ -319,5 +334,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DevExpress.XtraEditors.SimpleButton btnBuscarPrestamo;
+        private DevExpress.XtraEditors.SimpleButton btnDevolver;
     }
 }
