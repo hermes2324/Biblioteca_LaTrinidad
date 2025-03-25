@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Data;
+using System.Windows.Forms;
 using Conexiones;
 
 namespace Biblioteca_LaTrinidad
@@ -45,6 +46,27 @@ namespace Biblioteca_LaTrinidad
             else
             {
                 MessageBox.Show("Error al registrar Cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            CargarClientes();
+        }
+
+        private void Form_Admin_Load(object sender, System.EventArgs e)
+        {
+            CargarClientes();
+        }
+
+        private void CargarClientes()
+        {
+            DataTable dt = conexion.ObtenerClientes();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dataGridView1.DataSource = dt;
+            }
+            else
+            {
+                MessageBox.Show("No hay libros disponibles.");
+                dataGridView1.DataSource = null;
             }
         }
     }

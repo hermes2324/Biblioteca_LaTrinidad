@@ -33,12 +33,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Prestamo));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Libro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IdLibro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IDprestamo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.titulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Estaa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
@@ -54,8 +48,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnAgregar_Libro = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnPrestamo = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
@@ -74,13 +67,6 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.fecha,
-            this.Libro,
-            this.IdLibro,
-            this.IDprestamo,
-            this.titulo,
-            this.Estaa});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 9F);
@@ -89,7 +75,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView1.Location = new System.Drawing.Point(379, 174);
+            this.dataGridView1.Location = new System.Drawing.Point(403, 102);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
@@ -103,47 +89,8 @@
             this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowHeadersWidth = 45;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(924, 229);
+            this.dataGridView1.Size = new System.Drawing.Size(797, 229);
             this.dataGridView1.TabIndex = 80;
-            // 
-            // fecha
-            // 
-            this.fecha.HeaderText = "Cliente";
-            this.fecha.MinimumWidth = 6;
-            this.fecha.Name = "fecha";
-            // 
-            // Libro
-            // 
-            this.Libro.HeaderText = "Libro";
-            this.Libro.MinimumWidth = 6;
-            this.Libro.Name = "Libro";
-            // 
-            // IdLibro
-            // 
-            this.IdLibro.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.IdLibro.HeaderText = "Fecha del Prestamo";
-            this.IdLibro.MinimumWidth = 6;
-            this.IdLibro.Name = "IdLibro";
-            this.IdLibro.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.IdLibro.Width = 162;
-            // 
-            // IDprestamo
-            // 
-            this.IDprestamo.HeaderText = "Fecha de Devolucion";
-            this.IDprestamo.MinimumWidth = 6;
-            this.IDprestamo.Name = "IDprestamo";
-            // 
-            // titulo
-            // 
-            this.titulo.HeaderText = "Estado del Libro";
-            this.titulo.MinimumWidth = 6;
-            this.titulo.Name = "titulo";
-            // 
-            // Estaa
-            // 
-            this.Estaa.HeaderText = "Cantidad";
-            this.Estaa.MinimumWidth = 6;
-            this.Estaa.Name = "Estaa";
             // 
             // label1
             // 
@@ -180,6 +127,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(160, 24);
             this.comboBox1.TabIndex = 95;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -200,6 +148,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(160, 24);
             this.comboBox2.TabIndex = 97;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -220,6 +169,7 @@
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(160, 24);
             this.comboBox3.TabIndex = 99;
+            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -299,31 +249,19 @@
             this.label6.Text = "Desarrollado por Equipo FRAPE ® 2025";
             this.label6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // btnAgregar_Libro
+            // btnPrestamo
             // 
-            this.btnAgregar_Libro.Appearance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btnAgregar_Libro.Appearance.Options.UseFont = true;
-            this.btnAgregar_Libro.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
-            this.btnAgregar_Libro.Location = new System.Drawing.Point(69, 378);
-            this.btnAgregar_Libro.Name = "btnAgregar_Libro";
-            this.btnAgregar_Libro.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.btnAgregar_Libro.Size = new System.Drawing.Size(247, 50);
-            this.btnAgregar_Libro.TabIndex = 109;
-            this.btnAgregar_Libro.Text = "Agregar libro";
-            this.btnAgregar_Libro.Click += new System.EventHandler(this.btnAgregar_Libro_Click);
-            // 
-            // simpleButton1
-            // 
-            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.simpleButton1.Appearance.Options.UseFont = true;
-            this.simpleButton1.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage1")));
-            this.simpleButton1.Location = new System.Drawing.Point(688, 454);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.simpleButton1.Size = new System.Drawing.Size(247, 50);
-            this.simpleButton1.TabIndex = 110;
-            this.simpleButton1.Text = "Registrar prestamo";
-            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            this.btnPrestamo.Appearance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.btnPrestamo.Appearance.Options.UseFont = true;
+            this.btnPrestamo.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnPrestamo.ImageOptions.SvgImage")));
+            this.btnPrestamo.Location = new System.Drawing.Point(16, 428);
+            this.btnPrestamo.Margin = new System.Windows.Forms.Padding(5);
+            this.btnPrestamo.Name = "btnPrestamo";
+            this.btnPrestamo.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.btnPrestamo.Size = new System.Drawing.Size(386, 78);
+            this.btnPrestamo.TabIndex = 109;
+            this.btnPrestamo.Text = "Registrar Prestamo";
+            this.btnPrestamo.Click += new System.EventHandler(this.btnAgregar_Libro_Click);
             // 
             // Form_Prestamo
             // 
@@ -331,8 +269,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(1593, 761);
-            this.Controls.Add(this.simpleButton1);
-            this.Controls.Add(this.btnAgregar_Libro);
+            this.Controls.Add(this.btnPrestamo);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label5);
@@ -376,15 +313,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fecha;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Libro;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IdLibro;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IDprestamo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn titulo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Estaa;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label6;
-        private DevExpress.XtraEditors.SimpleButton btnAgregar_Libro;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton btnPrestamo;
     }
 }

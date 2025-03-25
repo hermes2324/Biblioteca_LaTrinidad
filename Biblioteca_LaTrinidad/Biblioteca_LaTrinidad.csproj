@@ -128,6 +128,12 @@
     <Compile Include="Generar_Reporte.Designer.cs">
       <DependentUpon>Generar_Reporte.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gestion_Admin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gestion_Admin.Designer.cs">
+      <DependentUpon>Gestion_Admin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Olvido_Contraseña.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Generar_Reporte.resx">
       <DependentUpon>Generar_Reporte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gestion_Admin.resx">
+      <DependentUpon>Gestion_Admin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Olvido_Contraseña.resx">
       <DependentUpon>Olvido_Contraseña.cs</DependentUpon>

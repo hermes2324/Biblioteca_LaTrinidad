@@ -44,6 +44,7 @@
     <Compile Include="Bibliotecario.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="Libros.cs" />
+    <Compile Include="Prestamos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

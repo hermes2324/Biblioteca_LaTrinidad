@@ -184,6 +184,28 @@ namespace Conexiones
             }
         }
 
+        public int ObtenerID(string usuario, string contraseña)
+        {
+            int idBibliotecario = 0;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                string query = "SELECT IDBibliotecario FROM Bibliotecario WHERE Usuario = @usuario and Contraseña = contraseña";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@usuario", usuario);
+                    cmd.Parameters.AddWithValue("@contraseña", contraseña);
+
+                    object resultado = cmd.ExecuteScalar();
+                    if (resultado != null)
+                    {
+                        idBibliotecario = Convert.ToInt32(resultado);
+                    }
+                }
+            }
+            return idBibliotecario;
+        }
     }
 
 }

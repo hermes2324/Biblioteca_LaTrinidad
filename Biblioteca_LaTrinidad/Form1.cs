@@ -67,7 +67,7 @@ namespace Biblioteca_LaTrinidad
         {
             string usuario = TxtUser.Text;
             string contraseña = TxtPass.Text;
-
+            int idBibliotecario = Conexion.ObtenerID(usuario, contraseña);
             // Validar que el usuario ingresó datos
             if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contraseña))
             {
@@ -79,6 +79,7 @@ namespace Biblioteca_LaTrinidad
 
             if (resultado != null)
             {
+                SesionActual.IDBibliotecario = idBibliotecario;
                 string[] datos = resultado.Split(',');
                 string nombre = datos[0];
                 string rol = datos[1]; // Rol obtenido de la base de datos
@@ -100,7 +101,7 @@ namespace Biblioteca_LaTrinidad
                 // Abrir el formulario correspondiente
                 if (rol == "Administrador")
                 {
-                    new Form_Admin().Show();
+                    new Gestion_Admin ().Show();
                 }
                 else if (rol == "Bibliotecario")
                 {
@@ -113,6 +114,11 @@ namespace Biblioteca_LaTrinidad
             {
                 MessageBox.Show("No existen las credenciales, o credenciales incorrectas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public static class SesionActual
+        {
+            public static int IDBibliotecario { get; set; } = 0;
         }
 
         private void panel4_Paint(object sender, PaintEventArgs e)

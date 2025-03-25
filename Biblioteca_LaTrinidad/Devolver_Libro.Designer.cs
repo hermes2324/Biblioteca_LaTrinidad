@@ -88,7 +88,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Location = new System.Drawing.Point(32, 316);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -149,7 +149,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(143, 52);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(160, 22);
             this.textBox1.TabIndex = 88;
@@ -169,10 +169,11 @@
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(143, 102);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(160, 24);
             this.comboBox1.TabIndex = 91;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -225,7 +226,7 @@
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView2.Location = new System.Drawing.Point(32, 662);
-            this.dataGridView2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView2.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -269,11 +270,12 @@
             // 
             this.btnBuscarPrestamo.Appearance.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Bold);
             this.btnBuscarPrestamo.Appearance.Options.UseFont = true;
-            this.btnBuscarPrestamo.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
-            this.btnBuscarPrestamo.Location = new System.Drawing.Point(366, 52);
+            this.btnBuscarPrestamo.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnBuscarPrestamo.ImageOptions.SvgImage")));
+            this.btnBuscarPrestamo.Location = new System.Drawing.Point(458, 65);
+            this.btnBuscarPrestamo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnBuscarPrestamo.Name = "btnBuscarPrestamo";
             this.btnBuscarPrestamo.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.btnBuscarPrestamo.Size = new System.Drawing.Size(205, 76);
+            this.btnBuscarPrestamo.Size = new System.Drawing.Size(256, 95);
             this.btnBuscarPrestamo.TabIndex = 96;
             this.btnBuscarPrestamo.Text = "Buscar prestamo";
             this.btnBuscarPrestamo.Click += new System.EventHandler(this.btnBuscarPrestamo_Click);
@@ -282,11 +284,12 @@
             // 
             this.btnDevolver.Appearance.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Bold);
             this.btnDevolver.Appearance.Options.UseFont = true;
-            this.btnDevolver.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage1")));
-            this.btnDevolver.Location = new System.Drawing.Point(1136, 662);
+            this.btnDevolver.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnDevolver.ImageOptions.SvgImage")));
+            this.btnDevolver.Location = new System.Drawing.Point(1420, 828);
+            this.btnDevolver.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDevolver.Name = "btnDevolver";
             this.btnDevolver.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.btnDevolver.Size = new System.Drawing.Size(139, 68);
+            this.btnDevolver.Size = new System.Drawing.Size(174, 85);
             this.btnDevolver.TabIndex = 97;
             this.btnDevolver.Text = "Devolver";
             // 
@@ -306,7 +309,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label6);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Devolver_Libro";
             this.Text = "v";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
