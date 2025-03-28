@@ -11,6 +11,7 @@ namespace Biblioteca_LaTrinidad
         {
             InitializeComponent();
             Conexion = new ConexionBD("MSI");
+            comboBox1.SelectedIndex = 1;
 
         }
 
@@ -127,6 +128,11 @@ namespace Biblioteca_LaTrinidad
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
