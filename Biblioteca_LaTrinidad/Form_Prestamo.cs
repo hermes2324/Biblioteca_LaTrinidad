@@ -91,24 +91,31 @@ namespace Biblioteca_LaTrinidad
 
         private void btnAgregar_Libro_Click(object sender, System.EventArgs e)
         {
+
             if (btnPrestamo.Enabled)
             {
-                // Lógica para registrar el préstamo
-                int idCliente = Convert.ToInt32(((DataRowView)comboBox1.SelectedItem)["idCliente"]);
-                int idLibro = (int)((dynamic)comboBox2.SelectedItem).IDLibro;
-                // Suponiendo que el bibliotecario tiene un ID fijo, como ejemplo
-                int idBibliotecario = SesionActual.IDBibliotecario;
-                DateTime fechaPrestamo = dateTimePicker1.Value;
-                DateTime fechaDevolucion = dateTimePicker2.Value;
-                string estado = "Prestado";
-                int cantidad = Convert.ToInt32(textBox1.Text); // Asumiendo que es un préstamo de una sola unidad
+                try
+                {
+                    // Lógica para registrar el préstamo
+                    int idCliente = Convert.ToInt32(((DataRowView)comboBox1.SelectedItem)["idCliente"]);
+                    int idLibro = (int)((dynamic)comboBox2.SelectedItem).IDLibro;
+                    // Suponiendo que el bibliotecario tiene un ID fijo, como ejemplo
+                    int idBibliotecario = SesionActual.IDBibliotecario;
+                    DateTime fechaPrestamo = dateTimePicker1.Value;
+                    DateTime fechaDevolucion = dateTimePicker2.Value;
+                    string estado = "Prestado";
+                    int cantidad = Convert.ToInt32(textBox1.Text); // Asumiendo que es un préstamo de una sola unidad
 
-                // Registrar el préstamo
-                int idPrestamo = prestamos.RegistrarPrestamo(idCliente, idBibliotecario, fechaPrestamo, fechaDevolucion);
-                prestamos.RegistrarDetallePrestamo(idPrestamo, idLibro,estado, cantidad);
+                    // Registrar el préstamo
+                    int idPrestamo = prestamos.RegistrarPrestamo(idCliente, idBibliotecario, fechaPrestamo, fechaDevolucion, idLibro, cantidad);
+                    prestamos.RegistrarDetallePrestamo(idPrestamo, idLibro, estado, cantidad);
 
-                MessageBox.Show("Préstamo registrado con éxito.");
-                CargarDetallePrestamo();
+                    MessageBox.Show("Préstamo registrado con éxito.");
+                    CargarDetallePrestamo();
+                }catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
             else
             {

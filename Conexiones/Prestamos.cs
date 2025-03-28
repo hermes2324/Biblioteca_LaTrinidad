@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Conexiones
 {
 
@@ -16,32 +15,75 @@ namespace Conexiones
         {
             connectionString = $"Server={servidor};Database=BibliotecaDB;Integrated Security=True;";
         }
+        private int ObtenerCantidadDisponible(int idLibro)
+        {
+            int cantidadDisponible = 0;
+            string query = @"
+            SELECT L.Cantidad - ISNULL(SUM(DP.CantidadDeLibros), 0) AS Disponibles
+            FROM Libro1 L
+            LEFT JOIN DetallePrestamo DP ON L.IDLibro = DP.IDLibro
+            WHERE L.IDLibro = @IDLibro
+            GROUP BY L.IDLibro, L.Cantidad";
 
-        private SqlConnection ObtenerConexion()
+            using (SqlConnection conn = ObtenerConexion())
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@IDLibro", idLibro);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        cantidadDisponible = reader.GetInt32(0);
+                    }
+                }
+            }
+
+            return cantidadDisponible;
+        }
+        public SqlConnection ObtenerConexion()
         {
             return new SqlConnection(connectionString);
         }
         //insertar el id del bibliotecario w
         // Método para registrar un préstamo
-        public int RegistrarPrestamo(int idCliente, int idBibliotecario, DateTime fechaPrestamo, DateTime fechaDevolucion)
+        public int RegistrarPrestamo(int idCliente, int idBibliotecario, DateTime fechaPrestamo, DateTime fechaDevolucion, int idLibro, int cantidad)
         {
             int idPrestamo = 0;
-            using (SqlConnection conn = ObtenerConexion())
+            try
             {
-                conn.Open();
-                string query = "INSERT INTO Prestamo (IDCliente, IDBibliotecario, FechaPrestamo, FechaDevolucion) " +
-                               "OUTPUT INSERTED.IDPrestamo VALUES (@idCliente, @idBibliotecario, @fechaPrestamo, @fechaDevolucion)";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                // Verificar la cantidad disponible antes de registrar el préstamo
+                int cantidadDisponible = ObtenerCantidadDisponible(idLibro);
+                if (cantidad > cantidadDisponible)
                 {
-                    cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                    cmd.Parameters.AddWithValue("@idBibliotecario", idBibliotecario);
-                    cmd.Parameters.AddWithValue("@fechaPrestamo", fechaPrestamo);
-                    cmd.Parameters.AddWithValue("@fechaDevolucion", fechaDevolucion);
-                    idPrestamo = Convert.ToInt32(cmd.ExecuteScalar());
+                    throw new InvalidOperationException($"No hay suficientes libros disponibles. Disponibles: {cantidadDisponible}, Solicitados: {cantidad}");
                 }
-            }
-            return idPrestamo;
+
+                using (SqlConnection conn = ObtenerConexion())
+                {
+                    conn.Open();
+                    string query = "INSERT INTO Prestamo (IDCliente, IDBibliotecario, FechaPrestamo, FechaDevolucion) " +
+                                   "OUTPUT INSERTED.IDPrestamo VALUES (@idCliente, @idBibliotecario, @fechaPrestamo, @fechaDevolucion)";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
+                        cmd.Parameters.AddWithValue("@idBibliotecario", idBibliotecario);
+                        cmd.Parameters.AddWithValue("@fechaPrestamo", fechaPrestamo);
+                        cmd.Parameters.AddWithValue("@fechaDevolucion", fechaDevolucion);
+                        idPrestamo = Convert.ToInt32(cmd.ExecuteScalar());
+                    }
+                }
+
+                // Registrar el detalle del préstamo
+                RegistrarDetallePrestamo(idPrestamo, idLibro, "Prestado", cantidad);
+
+            } catch (Exception ex)
+            {
+               Console.WriteLine("Error al registrar prestamo: " + ex.Message);
+            } return idPrestamo;
+
         }
+
 
         public void RegistrarDetallePrestamo(int idPrestamo, int idLibro, string estadoDelLibro, int cantidad)
         {
