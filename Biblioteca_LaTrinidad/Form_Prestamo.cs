@@ -94,6 +94,16 @@ namespace Biblioteca_LaTrinidad
 
             if (btnPrestamo.Enabled)
             {
+                // Verificar que todos los campos estén llenos
+                if (comboBox1.SelectedItem == null ||
+                    comboBox2.SelectedItem == null ||
+                    string.IsNullOrWhiteSpace(textBox1.Text) ||
+                    !int.TryParse(textBox1.Text, out int cantidad))
+                {
+                    MessageBox.Show("Por favor, complete todos los campos y asegúrese de que la cantidad sea un número válido.");
+                    return;
+                }
+
                 try
                 {
                     // Lógica para registrar el préstamo
@@ -104,16 +114,13 @@ namespace Biblioteca_LaTrinidad
                     DateTime fechaPrestamo = dateTimePicker1.Value;
                     DateTime fechaDevolucion = dateTimePicker2.Value;
                     string estado = "Prestado";
-                    int cantidad = Convert.ToInt32(textBox1.Text); // Asumiendo que es un préstamo de una sola unidad
 
-                   
                     int idPrestamo = prestamos.RegistrarPrestamo(idCliente, idBibliotecario, fechaPrestamo, fechaDevolucion, idLibro, cantidad);
-
-                    //prestamos.RegistrarDetallePrestamo(idPrestamo, idLibro, estado, cantidad);
 
                     MessageBox.Show("Préstamo registrado con éxito.");
                     CargarDetallePrestamo();
-                }catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }

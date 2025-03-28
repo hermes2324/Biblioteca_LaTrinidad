@@ -26,12 +26,15 @@ namespace Biblioteca_LaTrinidad
         {
             bool operacionExitosa;
             int cantidad;
-            if (!int.TryParse(txtCantidad.Text, out cantidad))
+            if (string.IsNullOrWhiteSpace(txtTitulo.Text) ||
+      string.IsNullOrWhiteSpace(txtAutor.Text) ||
+      string.IsNullOrWhiteSpace(txtEditorial.Text) ||
+      string.IsNullOrWhiteSpace(txtCategoria.Text) ||
+      !int.TryParse(txtCantidad.Text, out cantidad))
             {
-                MessageBox.Show("Por favor, ingrese un número válido en el campo de cantidad.");
+                MessageBox.Show("Por favor, complete todos los campos y asegúrese de que la cantidad sea un número válido.");
                 return;
             }
-
             if (idLibro == 0)  // Agregar nuevo libro
             {
                 operacionExitosa = conexion.AgregarLibro(
@@ -46,6 +49,15 @@ namespace Biblioteca_LaTrinidad
             }
             else  // Actualizar libro existente
             {
+                if (string.IsNullOrWhiteSpace(txtTitulo.Text) ||
+      string.IsNullOrWhiteSpace(txtAutor.Text) ||
+      string.IsNullOrWhiteSpace(txtEditorial.Text) ||
+      string.IsNullOrWhiteSpace(txtCategoria.Text) ||
+      !int.TryParse(txtCantidad.Text, out cantidad))
+                {
+                    MessageBox.Show("Por favor, complete todos los campos y asegúrese de que la cantidad sea un número válido.");
+                    return;
+                }
                 operacionExitosa = conexion.ActualizarLibro(
                     idLibro,
                     txtTitulo.Text,
@@ -169,7 +181,7 @@ namespace Biblioteca_LaTrinidad
                 }
                 else
                 {
-                    MessageBox.Show("Hubo un error al eliminar el libro.");
+                    MessageBox.Show("El Libro tiene un Prestamo, no se puede eliminar.");
                 }
             }
         }
