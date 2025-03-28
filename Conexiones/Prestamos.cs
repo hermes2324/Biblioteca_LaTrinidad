@@ -329,30 +329,36 @@ namespace Conexiones
             bool disponible = false;
 
             string query = @"
-                SELECT L.IDLibro, L.Titulo, 
-                       L.Cantidad - ISNULL(SUM(DP.CantidadDeLibros), 0) AS Disponibles
-                FROM Libro1 L
-                LEFT JOIN DetallePrestamo DP ON L.IDLibro = DP.IDLibro
-                WHERE L.IDLibro = @IDLibro
-                GROUP BY L.IDLibro, L.Titulo, L.Cantidad";
+        SELECT CantidadDisponible 
+        FROM Libro1 
+        WHERE IDLibro = @IDLibro";
 
             using (SqlConnection conn = ObtenerConexion())
             {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                try
                 {
-                    cmd.Parameters.AddWithValue("@IDLibro", idLibro);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        int cantidadDisponible = reader.GetInt32(2);  // Columna "Disponibles"
-                        disponible = cantidadDisponible > 0;
+                        cmd.Parameters.AddWithValue("@IDLibro", idLibro);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            int cantidadDisponible = Convert.ToInt32(result);
+                            disponible = cantidadDisponible > 0;  // Si hay al menos 1 disponible, retorna true.
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error al verificar disponibilidad: " + ex.Message);
                 }
             }
 
             return disponible;
         }
+
 
         public class Libro
         {
