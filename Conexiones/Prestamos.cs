@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 namespace Conexiones
 {
 
+    // Asegúrate de que la clase Inventario esté definida en el mismo espacio de nombres o importe el espacio de nombres correcto
+   
+
     public class Prestamos
     {
         private string connectionString;
@@ -18,12 +21,7 @@ namespace Conexiones
         private int ObtenerCantidadDisponible(int idLibro)
         {
             int cantidadDisponible = 0;
-            string query = @"
-            SELECT L.Cantidad - ISNULL(SUM(DP.CantidadDeLibros), 0) AS Disponibles
-            FROM Libro1 L
-            LEFT JOIN DetallePrestamo DP ON L.IDLibro = DP.IDLibro
-            WHERE L.IDLibro = @IDLibro
-            GROUP BY L.IDLibro, L.Cantidad";
+            string query = "SELECT CantidadDisponible FROM Libro1 WHERE IDLibro = @IDLibro";
 
             using (SqlConnection conn = ObtenerConexion())
             {
@@ -31,16 +29,17 @@ namespace Conexiones
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@IDLibro", idLibro);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
                     {
-                        cantidadDisponible = reader.GetInt32(0);
+                        cantidadDisponible = Convert.ToInt32(result);
                     }
                 }
             }
 
             return cantidadDisponible;
         }
+
         public SqlConnection ObtenerConexion()
         {
             return new SqlConnection(connectionString);
@@ -62,46 +61,86 @@ namespace Conexiones
                 using (SqlConnection conn = ObtenerConexion())
                 {
                     conn.Open();
-                    string query = "INSERT INTO Prestamo (IDCliente, IDBibliotecario, FechaPrestamo, FechaDevolucion) " +
-                                   "OUTPUT INSERTED.IDPrestamo VALUES (@idCliente, @idBibliotecario, @fechaPrestamo, @fechaDevolucion)";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+
+                    using (SqlTransaction transaction = conn.BeginTransaction())
                     {
-                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                        cmd.Parameters.AddWithValue("@idBibliotecario", idBibliotecario);
-                        cmd.Parameters.AddWithValue("@fechaPrestamo", fechaPrestamo);
-                        cmd.Parameters.AddWithValue("@fechaDevolucion", fechaDevolucion);
-                        idPrestamo = Convert.ToInt32(cmd.ExecuteScalar());
+                        try
+                        {
+                            // Registrar el préstamo
+                            string query = "INSERT INTO Prestamo (IDCliente, IDBibliotecario, FechaPrestamo, FechaDevolucion) " +
+                                           "OUTPUT INSERTED.IDPrestamo VALUES (@idCliente, @idBibliotecario, @fechaPrestamo, @fechaDevolucion)";
+                            using (SqlCommand cmd = new SqlCommand(query, conn, transaction))
+                            {
+                                cmd.Parameters.AddWithValue("@idCliente", idCliente);
+                                cmd.Parameters.AddWithValue("@idBibliotecario", idBibliotecario);
+                                cmd.Parameters.AddWithValue("@fechaPrestamo", fechaPrestamo);
+                                cmd.Parameters.AddWithValue("@fechaDevolucion", fechaDevolucion);
+                                idPrestamo = Convert.ToInt32(cmd.ExecuteScalar());
+                            }
+
+                            // Registrar el detalle del préstamo
+                            RegistrarDetallePrestamo(idPrestamo, idLibro, "Prestado", cantidad, conn, transaction);
+
+                            // Descontar libros prestados en la tabla Libro1
+                            string updateQuery = "UPDATE Libro1 SET CantidadDisponible = CantidadDisponible - @cantidad WHERE IDLibro = @idLibro";
+                            using (SqlCommand updateCmd = new SqlCommand(updateQuery, conn, transaction))
+                            {
+                                updateCmd.Parameters.AddWithValue("@cantidad", cantidad);
+                                updateCmd.Parameters.AddWithValue("@idLibro", idLibro);
+                                updateCmd.ExecuteNonQuery();
+                            }
+
+                            transaction.Commit();
+                        }
+                        catch
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
                     }
                 }
 
-                // Registrar el detalle del préstamo
-                RegistrarDetallePrestamo(idPrestamo, idLibro, "Prestado", cantidad);
-
-            } catch (Exception ex)
+               
+            }
+            catch (Exception ex)
             {
-               Console.WriteLine("Error al registrar prestamo: " + ex.Message);
-            } return idPrestamo;
-
+                Console.WriteLine("Error al registrar préstamo: " + ex.Message);
+            }
+            return idPrestamo;
         }
 
-
-        public void RegistrarDetallePrestamo(int idPrestamo, int idLibro, string estadoDelLibro, int cantidad)
+        public void RegistrarDetallePrestamo(int idPrestamo, int idLibro, string estadoDelLibro, int cantidad, SqlConnection conn, SqlTransaction transaction)
         {
-            using (SqlConnection conn = ObtenerConexion())
+            // Verificar si ya existe un registro con el mismo idPrestamo e idLibro
+            string checkQuery = "SELECT COUNT(*) FROM DetallePrestamo WHERE IDPrestamo = @idPrestamo AND IDLibro = @idLibro";
+            using (SqlCommand checkCmd = new SqlCommand(checkQuery, conn, transaction))
             {
-                conn.Open();
-                string query = "INSERT INTO DetallePrestamo (IDPrestamo, IDLibro, EstadoDelLibro, CantidadDeLibros) " +
-                               "VALUES (@idPrestamo, @idLibro, @estadoDelLibro, @cantidad)";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                checkCmd.Parameters.AddWithValue("@idPrestamo", idPrestamo);
+                checkCmd.Parameters.AddWithValue("@idLibro", idLibro);
+                int count = (int)checkCmd.ExecuteScalar();
+
+                if (count > 0)
                 {
-                    cmd.Parameters.AddWithValue("@idPrestamo", idPrestamo); // Pasar el IDPrestamo generado
-                    cmd.Parameters.AddWithValue("@idLibro", idLibro);
-                    cmd.Parameters.AddWithValue("@estadoDelLibro", estadoDelLibro);
-                    cmd.Parameters.AddWithValue("@cantidad", cantidad);
-                    cmd.ExecuteNonQuery();
+                    throw new InvalidOperationException("Ya existe un registro con el mismo IDPrestamo e IDLibro.");
                 }
             }
+
+            // Insertar el nuevo registro si no existe
+            string query = "INSERT INTO DetallePrestamo (IDPrestamo, IDLibro, EstadoDelLibro, CantidadDeLibros) " +
+                           "VALUES (@idPrestamo, @idLibro, @estadoDelLibro, @cantidad)";
+            using (SqlCommand cmd = new SqlCommand(query, conn, transaction))
+            {
+                cmd.Parameters.AddWithValue("@idPrestamo", idPrestamo);
+                cmd.Parameters.AddWithValue("@idLibro", idLibro);
+                cmd.Parameters.AddWithValue("@estadoDelLibro", estadoDelLibro);
+                cmd.Parameters.AddWithValue("@cantidad", cantidad);
+                cmd.ExecuteNonQuery();
+            }
         }
+
+
+
+
 
         // Obtener préstamos por cliente
         public DataTable ObtenerPrestamosPorCliente(int idCliente)
@@ -333,10 +372,10 @@ namespace Conexiones
 
                 try
                 {
-                    // 1️⃣ Insertar en la tabla Devolucion
+                    // Insertar en la tabla Devolucion
                     string queryInsertarDevolucion = @"
-    INSERT INTO Devolucion (FechaDeDevolucion, EstadoDelLibro, IDBibliotecario, IDPrestamo)
-    VALUES (GETDATE(), @estado, @idBibliotecario, @idPrestamo)";
+INSERT INTO Devolucion (FechaDeDevolucion, EstadoDelLibro, IDBibliotecario, IDPrestamo)
+VALUES (GETDATE(), @estado, @idBibliotecario, @idPrestamo)";
 
                     using (SqlCommand cmdInsertarDevolucion = new SqlCommand(queryInsertarDevolucion, conn, transaction))
                     {
@@ -346,11 +385,11 @@ namespace Conexiones
                         cmdInsertarDevolucion.ExecuteNonQuery();
                     }
 
-                    // 2️⃣ Actualizar el estado del libro en DetallePrestamo
+                    // Actualizar el estado del libro en DetallePrestamo
                     string queryActualizarEstado = @"
-    UPDATE DetallePrestamo 
-    SET EstadoDelLibro = @estado 
-    WHERE IDPrestamo = @idPrestamo AND IDLibro = @idLibro";
+UPDATE DetallePrestamo 
+SET EstadoDelLibro = @estado 
+WHERE IDPrestamo = @idPrestamo AND IDLibro = @idLibro";
 
                     using (SqlCommand cmdEstado = new SqlCommand(queryActualizarEstado, conn, transaction))
                     {
@@ -360,11 +399,11 @@ namespace Conexiones
                         cmdEstado.ExecuteNonQuery();
                     }
 
-                    // 3️⃣ Actualizar la fecha de devolución en Prestamo
+                    // Actualizar la fecha de devolución en Prestamo
                     string queryActualizarFecha = @"
-    UPDATE Prestamo 
-    SET FechaDevolucion = GETDATE() 
-    WHERE IDPrestamo = @idPrestamo";
+UPDATE Prestamo 
+SET FechaDevolucion = GETDATE() 
+WHERE IDPrestamo = @idPrestamo";
 
                     using (SqlCommand cmdFecha = new SqlCommand(queryActualizarFecha, conn, transaction))
                     {
@@ -372,64 +411,40 @@ namespace Conexiones
                         cmdFecha.ExecuteNonQuery();
                     }
 
-                    // 4️⃣ (Opcional) Verificar si todos los libros del préstamo fueron devueltos
-                    string queryVerificarPrestamo = @"
-    SELECT COUNT(*) 
-    FROM DetallePrestamo 
-    WHERE IDPrestamo = @idPrestamo AND EstadoDelLibro != 'Disponible'";
-
-                    using (SqlCommand cmdVerificar = new SqlCommand(queryVerificarPrestamo, conn, transaction))
-                    {
-                        cmdVerificar.Parameters.AddWithValue("@idPrestamo", idPrestamo);
-                        int librosPendientes = Convert.ToInt32(cmdVerificar.ExecuteScalar());
-
-                        // Si ya no hay libros pendientes, no se realiza ningún cambio en el estado del préstamo
-                    }
-
-                    // 5️⃣ Obtener la cantidad de libros prestados desde CantidadDeLibros
-                    string queryCantidadPrestada = @"
-SELECT SUM(CantidadDeLibros) 
+                    // Obtener la cantidad de libros devueltos desde DetallePrestamo
+                    string queryCantidadDevuelta = @"
+SELECT CantidadDeLibros 
 FROM DetallePrestamo 
 WHERE IDPrestamo = @idPrestamo AND IDLibro = @idLibro";
 
-                    int cantidadPrestada = 0;
-                    using (SqlCommand cmdCantidadPrestada = new SqlCommand(queryCantidadPrestada, conn, transaction))
+                    int cantidadDevuelta = 0;
+                    using (SqlCommand cmdCantidadDevuelta = new SqlCommand(queryCantidadDevuelta, conn, transaction))
                     {
-                        cmdCantidadPrestada.Parameters.AddWithValue("@idPrestamo", idPrestamo);
-                        cmdCantidadPrestada.Parameters.AddWithValue("@idLibro", idLibro);
-                        var result = cmdCantidadPrestada.ExecuteScalar();
+                        cmdCantidadDevuelta.Parameters.AddWithValue("@idPrestamo", idPrestamo);
+                        cmdCantidadDevuelta.Parameters.AddWithValue("@idLibro", idLibro);
+                        var result = cmdCantidadDevuelta.ExecuteScalar();
 
-                        // Verifica si el resultado no es null y lo convierte a entero
                         if (result != DBNull.Value)
                         {
-                            cantidadPrestada = Convert.ToInt32(result);
-                        }
-                        else
-                        {
-                            cantidadPrestada = 0; // Si no hay resultados, asignamos 0
+                            cantidadDevuelta = Convert.ToInt32(result);
                         }
                     }
 
-                    // Validar que la cantidad prestada no sea negativa o nula
-                    if (cantidadPrestada > 0)
+                    // Validar que la cantidad devuelta sea mayor a cero
+                    if (cantidadDevuelta > 0)
                     {
-                        // 6️⃣ Actualizar la cantidad de libros disponibles en Libro1 (sumar la cantidad de libros devueltos)
-                        string queryActualizarCantidadLibro = @"
+                        // Actualizar la cantidad disponible en la tabla Libro1
+                        string queryActualizarCantidadDisponible = @"
 UPDATE Libro1
-SET Cantidad = Cantidad + @cantidadPrestada
+SET CantidadDisponible = CantidadDisponible + @cantidadDevuelta
 WHERE IDLibro = @idLibro";
 
-                        using (SqlCommand cmdActualizarCantidad = new SqlCommand(queryActualizarCantidadLibro, conn, transaction))
+                        using (SqlCommand cmdActualizarCantidadDisponible = new SqlCommand(queryActualizarCantidadDisponible, conn, transaction))
                         {
-                            cmdActualizarCantidad.Parameters.AddWithValue("@cantidadPrestada", cantidadPrestada);
-                            cmdActualizarCantidad.Parameters.AddWithValue("@idLibro", idLibro);
-                            cmdActualizarCantidad.ExecuteNonQuery();
+                            cmdActualizarCantidadDisponible.Parameters.AddWithValue("@cantidadDevuelta", cantidadDevuelta);
+                            cmdActualizarCantidadDisponible.Parameters.AddWithValue("@idLibro", idLibro);
+                            cmdActualizarCantidadDisponible.ExecuteNonQuery();
                         }
-                    }
-                    else
-                    {
-                        // Si no hay libros prestados, no hacemos la actualización
-                        Console.WriteLine("No hay libros prestados para devolver.");
                     }
 
                     // Confirmar la transacción
@@ -445,6 +460,13 @@ WHERE IDLibro = @idLibro";
 
             return resultado;
         }
+
+
+
+
+
+
+
 
     }
 }

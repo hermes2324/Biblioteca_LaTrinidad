@@ -106,9 +106,10 @@ namespace Biblioteca_LaTrinidad
                     string estado = "Prestado";
                     int cantidad = Convert.ToInt32(textBox1.Text); // Asumiendo que es un préstamo de una sola unidad
 
-                    // Registrar el préstamo
+                   
                     int idPrestamo = prestamos.RegistrarPrestamo(idCliente, idBibliotecario, fechaPrestamo, fechaDevolucion, idLibro, cantidad);
-                    prestamos.RegistrarDetallePrestamo(idPrestamo, idLibro, estado, cantidad);
+
+                    //prestamos.RegistrarDetallePrestamo(idPrestamo, idLibro, estado, cantidad);
 
                     MessageBox.Show("Préstamo registrado con éxito.");
                     CargarDetallePrestamo();

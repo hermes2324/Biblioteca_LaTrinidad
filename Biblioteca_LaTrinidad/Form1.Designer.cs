@@ -63,7 +63,7 @@
             this.panel3.Controls.Add(this.TxtPass);
             this.panel3.Controls.Add(this.label2);
             this.panel3.Location = new System.Drawing.Point(165, 76);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(597, 533);
             this.panel3.TabIndex = 12;
@@ -102,7 +102,7 @@
             "Bibliotecario",
             ""});
             this.comboBox1.Location = new System.Drawing.Point(187, 160);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(217, 33);
             this.comboBox1.TabIndex = 9;
@@ -126,7 +126,7 @@
             this.panel4.BackColor = System.Drawing.Color.LightGray;
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel4.Location = new System.Drawing.Point(0, 495);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(597, 38);
             this.panel4.TabIndex = 6;
@@ -171,7 +171,7 @@
             this.BtnIngreso.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnIngreso.ForeColor = System.Drawing.Color.White;
             this.BtnIngreso.Location = new System.Drawing.Point(187, 432);
-            this.BtnIngreso.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnIngreso.Margin = new System.Windows.Forms.Padding(4);
             this.BtnIngreso.Name = "BtnIngreso";
             this.BtnIngreso.Size = new System.Drawing.Size(219, 39);
             this.BtnIngreso.TabIndex = 5;
@@ -185,7 +185,7 @@
             this.TxtUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtUser.Location = new System.Drawing.Point(188, 262);
-            this.TxtUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtUser.Margin = new System.Windows.Forms.Padding(4);
             this.TxtUser.Name = "TxtUser";
             this.TxtUser.Size = new System.Drawing.Size(218, 30);
             this.TxtUser.TabIndex = 3;
@@ -197,7 +197,7 @@
             this.TxtPass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtPass.Location = new System.Drawing.Point(187, 340);
-            this.TxtPass.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtPass.Margin = new System.Windows.Forms.Padding(4);
             this.TxtPass.Name = "TxtPass";
             this.TxtPass.PasswordChar = '*';
             this.TxtPass.Size = new System.Drawing.Size(218, 30);
@@ -223,7 +223,7 @@
             this.panel1.Controls.Add(this.label4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 643);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(928, 62);
             this.panel1.TabIndex = 10;
@@ -253,9 +253,10 @@
             this.ClientSize = new System.Drawing.Size(928, 705);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel1.ResumeLayout(false);

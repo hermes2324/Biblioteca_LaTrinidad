@@ -70,7 +70,7 @@ namespace Biblioteca_LaTrinidad
 
         private void button6_Click(object sender, EventArgs e)
         {
-            AbrirFormEnPanel(new Eliminar_Libro());
+         
         }
 
         private void button7_Click(object sender, EventArgs e)
